@@ -45,14 +45,14 @@ let
 
   pname = "slack";
 
-  x86_64-darwin-version = "4.34.121";
-  x86_64-darwin-sha256 = "0j04rj8v6aq4kjlkkc6yf466zq821jg3qy6qppmvyg5z0f08cyar";
+  x86_64-darwin-version = "4.36.138";
+  x86_64-darwin-sha256 = "1dj4q98sva25kbniqnwz2l38lg48dhrdmjx31sg8j0ayrs82hha4";
 
-  x86_64-linux-version = "4.34.121";
-  x86_64-linux-sha256 = "11199dsp7phmz0bxlk5al61xp2g6yzgj17nwz0zrx1g7ak0qdvz5";
+  x86_64-linux-version = "4.36.138";
+  x86_64-linux-sha256 = "06h258fvpprx37vjvd5sxl6bxnfcq3shviwx9wv8m9fmg2riwnsg";
 
-  aarch64-darwin-version = "4.34.121";
-  aarch64-darwin-sha256 = "0pvlf9h8433fi31398g4rkii14gk77a684sln8n95xg5p3lxkydy";
+  aarch64-darwin-version = "4.36.138";
+  aarch64-darwin-sha256 = "10xg5aa668iq0n56la1rqgpbzw8jym0y8dgv99f1l7yn03fcwpql";
 
   version = {
     x86_64-darwin = x86_64-darwin-version;

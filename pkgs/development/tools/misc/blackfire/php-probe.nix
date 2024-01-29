@@ -9,45 +9,52 @@
 , common-updater-scripts
 }:
 
+assert lib.assertMsg (!php.ztsSupport) "blackfire only supports non zts versions of PHP";
+
 let
   phpMajor = lib.versions.majorMinor php.version;
 
-  version = "1.90.0";
+  version = "1.92.8";
 
   hashes = {
     "x86_64-linux" = {
       system = "amd64";
       hash = {
-        "8.1" = "sha256-Cq44SJXe8B/RtVGFDDljDBPVs85ELa1K8B7q1u5SEug=";
-        "8.2" = "sha256-YZ6rEYfssG8bF40wpEGvW5zb1aoIpo3pM+AEZ7yU74E=";
+        "8.1" = "sha256-zN39X2hd++Z5cj9JN3Athiq9j12i7/Q5QCnohw8PVDk=";
+        "8.2" = "sha256-ZgzegspY+aXQDLfRvDBDm+FtY4VzM/OWJG0ZSr4OAag=";
+        "8.3" = "sha256-o0ARDtcn5m6z+Ll+QT1JOR1jH2wJNNz1URV9BePViTU=";
       };
     };
     "i686-linux" = {
       system = "i386";
       hash = {
-        "8.1" = "sha256-Gc0kin1z4WLT67lQjfQb1yxZ45bo/q9KV4RQN5zmnTc=";
-        "8.2" = "sha256-46OF4GMwHFG1CPQJfHI7OrMYGw2hJXgRIFLKcnaKnaI=";
+        "8.1" = "sha256-8Qr1H9lgf8FxBLPTbxueSqi1S5y3HC3kzRQupfQkTew=";
+        "8.2" = "sha256-exrpoA74Ikr3YWcUIB8ZTCkKnJ7YeK4yZ6oDfpcQ3Sg=";
+        "8.3" = "sha256-7JirGgtQj8+mtyhEJOiM480bQ+98tv59r4LbMX6/X9Q=";
       };
     };
     "aarch64-linux" = {
       system = "arm64";
       hash = {
-        "8.1" = "sha256-rV4YoqGOOQWK2WR5RY7SQ/xePpD54vA4+Km8rFNpv4g=";
-        "8.2" = "sha256-9NuJfa/n3/tyiSn7lcrOUhD+eYUuanJsrzVAJ9cYWhs=";
+        "8.1" = "sha256-ubNi2WxOuZ10OZhVzroIjfpBxg1gC1s9Nddj+U4fx5M=";
+        "8.2" = "sha256-iUTCgJxmMtuNiT6+TqCqgKIVXF0THQgycxLiDUYdaeo=";
+        "8.3" = "sha256-EwVe/hlengd+87w9xpA+pWGu8iXQh5Ldr4tZVgGps2M=";
       };
     };
     "aarch64-darwin" = {
       system = "arm64";
       hash = {
-        "8.1" = "sha256-G9cep5apYGFEdTOka3QClteCmEUktLtV8I+oIBzsZ9U=";
-        "8.2" = "sha256-3wGiekRaGUEHdTpUniPz0Nay2AM0DOQfgFUAC1ezBCs=";
+        "8.1" = "sha256-bSPOUxQpTIsC2pZ95kLvrWJVVUb1bf51ety26miyxy8=";
+        "8.2" = "sha256-lncGFHCENSoVMGvKgsE5yBhThsfZ2xdIVDoVgECDV+w=";
+        "8.3" = "sha256-6hVAlaN48OLrGEsoqBo+JdNV+NxWpmLwAdv9ymaWkHY=";
       };
     };
     "x86_64-darwin" = {
       system = "amd64";
       hash = {
-        "8.1" = "sha256-BKdngfG78U0lHa7MTW1kndeM2umyEn7ns5T4mglLWnA=";
-        "8.2" = "sha256-02kXdXqj8HuJG0NblkwYPvgiAmbxC19X0xQ7XU2anhg=";
+        "8.1" = "sha256-aRLxX2FULffZHUNYyrpypLN+XINC+NTaRMIulh61M1o=";
+        "8.2" = "sha256-Ma9EgcoM4x3iK8ygcEte/Wtip+/Z4Prs2CvITxGoaLM=";
+        "8.3" = "sha256-6vPcc5ogaQs7Z/o4jMR0VX2r5Mq1vpxdf0hvMrQGxZE=";
       };
     };
   };

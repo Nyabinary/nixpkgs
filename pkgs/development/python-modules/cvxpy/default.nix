@@ -1,6 +1,7 @@
 { lib
 , stdenv
 , buildPythonPackage
+, clarabel
 , cvxopt
 , ecos
 , fetchPypi
@@ -12,19 +13,20 @@
 , scs
 , setuptools
 , wheel
+, pybind11
 , useOpenmp ? (!stdenv.isDarwin)
 }:
 
 buildPythonPackage rec {
   pname = "cvxpy";
-  version = "1.3.2";
+  version = "1.4.2";
   format = "pyproject";
 
   disabled = pythonOlder "3.7";
 
   src = fetchPypi {
     inherit pname version;
-    hash = "sha256-C2heUEDxmfPXA/MPXSLR+GVZdiNFUVPR3ddwJFrvCXU=";
+    hash = "sha256-CjhqV4jb14t7IN0HFSTsY2yPpys2KOafGrxxTI+YEeU=";
   };
 
   # we need to patch out numpy version caps from upstream
@@ -35,16 +37,17 @@ buildPythonPackage rec {
   nativeBuildInputs = [
     setuptools
     wheel
+    pybind11
   ];
 
   propagatedBuildInputs = [
+    clarabel
     cvxopt
     ecos
     numpy
     osqp
     scipy
     scs
-    setuptools
   ];
 
   nativeCheckInputs = [

@@ -11,18 +11,18 @@
 
 buildGoModule rec {
   pname = "shellhub-agent";
-  version = "0.12.5";
+  version = "0.14.2";
 
   src = fetchFromGitHub {
     owner = "shellhub-io";
     repo = "shellhub";
     rev = "v${version}";
-    hash = "sha256-+2YYTnQDU9AkCjWvUEsddgu8GVJk0VUCMkEeWhW/u0w=";
+    hash = "sha256-VP1U5JSVsAcGeV/xUrToJfrdw0TWbHhmi2Y/tM5bHpQ=";
   };
 
   modRoot = "./agent";
 
-  vendorHash = "sha256-lZ7W7YpigcVaLO9HoS5V379nyKHemRh9Z2NjlZbJcPg=";
+  vendorHash = "sha256-ISFnljpdOcvhNTM4jMGmi2xArjWSmjJj7dCnlcSfkVI=";
 
   ldflags = [ "-s" "-w" "-X main.AgentVersion=v${version}" ];
 
@@ -56,5 +56,6 @@ buildGoModule rec {
     license = licenses.asl20;
     maintainers = with maintainers; [ otavio ];
     platforms = platforms.linux;
+    mainProgram = "agent";
   };
 }

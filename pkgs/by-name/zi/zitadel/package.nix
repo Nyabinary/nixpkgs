@@ -1,5 +1,5 @@
 { stdenv
-, buildGo121Module
+, buildGoModule
 , callPackage
 , fetchFromGitHub
 , lib
@@ -15,17 +15,17 @@
 }:
 
 let
-  version = "2.37.2";
+  version = "2.40.3";
   zitadelRepo = fetchFromGitHub {
     owner = "zitadel";
     repo = "zitadel";
     rev = "v${version}";
-    hash = "sha256-iWEL7R7eNDV4c1CZhmxxiHHI9ExwU6gnmHI6ildaXWY=";
+    hash = "sha256-WqsK6DAYkLs5wBNvkVGarLMm/unBLtipFkl07pR90HI=";
   };
-  goModulesHash = "sha256-lk4jEiI85EKk0G4JCHvCazqBBTfiNJqSfzvrJgDZ1Nc=";
+  goModulesHash = "sha256-IVf1YVnhyEYgZqM31Cv3aBFnPG7v5WW6fCEvlN+sTIE=";
 
   buildZitadelProtocGen = name:
-    buildGo121Module {
+    buildGoModule {
       pname = "protoc-gen-${name}";
       inherit version;
 
@@ -91,10 +91,10 @@ let
       protoc-gen-zitadel
     ];
     outputPath = ".artifacts";
-    hash = "sha256-+9UFBWBuSYNbfimKwJUSoiUh+8bDHGnPdx1MKDul1U4=";
+    hash = "sha256-xrEF1B4pMoCZs1WO9F6IoqHnSyt5BhPVTIABMWK/q2E=";
   };
 in
-buildGo121Module rec {
+buildGoModule rec {
   name = "zitadel";
   inherit version;
 

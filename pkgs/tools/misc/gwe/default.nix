@@ -28,6 +28,7 @@ let
    requests
    rx
    gtk3
+   reactivex
  ]);
 in stdenv.mkDerivation rec {
   pname = "gwe";
@@ -84,5 +85,6 @@ in stdenv.mkDerivation rec {
     platforms = platforms.linux;
     license = licenses.gpl3Only;
     maintainers = [ maintainers.ivar ];
+    mainProgram = "gwe";
   };
 }

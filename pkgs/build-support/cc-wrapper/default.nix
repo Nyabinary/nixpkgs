@@ -110,6 +110,9 @@ let
   gccForLibs_solib = getLib gccForLibs
     + optionalString (targetPlatform != hostPlatform) "/${targetPlatform.config}";
 
+  # Analogously to cc_solib and gccForLibs_solib
+  libcxx_solib = "${lib.getLib libcxx}/lib";
+
   # The following two functions, `isGccArchSupported` and
   # `isGccTuneSupported`, only handle those situations where a flag
   # (`-march` or `-mtune`) is accepted by one compiler but rejected
@@ -218,6 +221,8 @@ let
        then guess
        else null;
 
+  defaultHardeningFlags = bintools.defaultHardeningFlags or [];
+
   darwinPlatformForCC = optionalString stdenv.targetPlatform.isDarwin (
     if (targetPlatform.darwinPlatform == "macos" && isGNU) then "macosx"
     else targetPlatform.darwinPlatform
@@ -271,6 +276,8 @@ stdenv.mkDerivation {
     inherit expand-response-params;
 
     inherit nixSupport;
+
+    inherit defaultHardeningFlags;
   };
 
   dontBuild = true;
@@ -518,10 +525,10 @@ stdenv.mkDerivation {
     # additional -isystem flags will confuse gfortran (see
     # https://github.com/NixOS/nixpkgs/pull/209870#issuecomment-1500550903)
     + optionalString (libcxx == null && isClang && (useGccForLibs && gccForLibs.langCC or false)) ''
-      for dir in ${gccForLibs}${lib.optionalString (hostPlatform != targetPlatform) "/${targetPlatform.config}"}/include/c++/*; do
+      for dir in ${gccForLibs}/include/c++/*; do
         echo "-isystem $dir" >> $out/nix-support/libcxx-cxxflags
       done
-      for dir in ${gccForLibs}${lib.optionalString (hostPlatform != targetPlatform) "/${targetPlatform.config}"}/include/c++/*/${targetPlatform.config}; do
+      for dir in ${gccForLibs}/include/c++/*/${targetPlatform.config}; do
         echo "-isystem $dir" >> $out/nix-support/libcxx-cxxflags
       done
     ''
@@ -560,7 +567,7 @@ stdenv.mkDerivation {
       echo "$ccLDFlags" >> $out/nix-support/cc-ldflags
       echo "$ccCFlags" >> $out/nix-support/cc-cflags
     '' + optionalString (targetPlatform.isDarwin && (libcxx != null) && (cc.isClang or false)) ''
-      echo " -L${lib.getLib libcxx}/lib" >> $out/nix-support/cc-ldflags
+      echo " -L${libcxx_solib}" >> $out/nix-support/cc-ldflags
     ''
 
     ##
@@ -649,12 +656,6 @@ stdenv.mkDerivation {
       hardening_unsupported_flags+=" stackprotector"
     ''
 
-    + optionalString (libc != null && targetPlatform.isAvr) ''
-      for isa in avr5 avr3 avr4 avr6 avr25 avr31 avr35 avr51 avrxmega2 avrxmega4 avrxmega5 avrxmega6 avrxmega7 tiny-stack; do
-        echo "-B${getLib libc}/avr/lib/$isa" >> $out/nix-support/libc-crt1-cflags
-      done
-    ''
-
     + optionalString stdenv.targetPlatform.isDarwin ''
         echo "-arch ${targetPlatform.darwinArch}" >> $out/nix-support/cc-cflags
     ''
@@ -712,6 +713,7 @@ stdenv.mkDerivation {
     inherit suffixSalt coreutils_bin bintools;
     inherit libc_bin libc_dev libc_lib;
     inherit darwinPlatformForCC darwinMinVersion darwinMinVersionVariable;
+    default_hardening_flags_str = builtins.toString defaultHardeningFlags;
   };
 
   meta =

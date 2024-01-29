@@ -10,14 +10,7 @@ in  {
   options.services.strongswan-swanctl = {
     enable = mkEnableOption (lib.mdDoc "strongswan-swanctl service");
 
-    package = mkOption {
-      type = types.package;
-      default = pkgs.strongswan;
-      defaultText = literalExpression "pkgs.strongswan";
-      description = lib.mdDoc ''
-        The strongswan derivation to use.
-      '';
-    };
+    package = mkPackageOption pkgs "strongswan" { };
 
     strongswan.extraConfig = mkOption {
       type = types.str;
@@ -62,6 +55,7 @@ in  {
     systemd.services.strongswan-swanctl = {
       description = "strongSwan IPsec IKEv1/IKEv2 daemon using swanctl";
       wantedBy = [ "multi-user.target" ];
+      wants    = [ "network-online.target" ];
       after    = [ "network-online.target" ];
       path     = with pkgs; [ kmod iproute2 iptables util-linux ];
       environment = {

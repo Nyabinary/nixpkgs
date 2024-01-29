@@ -7,21 +7,28 @@
 
 stdenv.mkDerivation (finalAttrs: {
   pname = "jasper";
-  version = "4.0.0";
+  version = "4.1.2";
 
   src = fetchFromGitHub {
     owner = "jasper-software";
     repo = "jasper";
     rev = "version-${finalAttrs.version}";
-    hash = "sha256-v/AFx40JWdbTCa008tDz/n9cXgpAkKv4rSiGJ8yx1YQ=";
+    hash = "sha256-tTgoRLthNLqRO8fDrmGHVCB9QXpmPmTr9uqSFwkIK+s=";
   };
+
+  outputs = [ "out" "doc" "man" ];
 
   nativeBuildInputs = [
     cmake
     pkg-config
   ];
 
+  # Since "build" already exists and is populated, cmake tries to use it,
+  # throwing uncomprehensible error messages...
   cmakeBuildDir = "build-directory";
+  cmakeFlags = [
+    (lib.cmakeBool "ALLOW_IN_SOURCE_BUILD" true)
+  ];
 
   strictDeps = true;
 
@@ -48,5 +55,8 @@ stdenv.mkDerivation (finalAttrs: {
     license = lib.licenses.mit;
     maintainers = with lib.maintainers; [ AndersonTorres ];
     platforms = lib.platforms.unix;
+
+    # The value of __STDC_VERSION__ cannot be automatically determined when cross-compiling.
+    broken = stdenv.buildPlatform != stdenv.hostPlatform;
   };
 })

@@ -4,6 +4,10 @@ self: super: {
 
     apache_datasketches = super.callPackage ./ext/apache_datasketches.nix { };
 
+    citus = super.callPackage ./ext/citus.nix { };
+
+    h3-pg = super.callPackage ./ext/h3-pg.nix { };
+
     hypopg = super.callPackage ./ext/hypopg.nix { };
 
     jsonb_deep_sum = super.callPackage ./ext/jsonb_deep_sum.nix { };
@@ -17,6 +21,8 @@ self: super: {
     pg_bigm = super.callPackage ./ext/pg_bigm.nix { };
 
     pg_ed25519 = super.callPackage ./ext/pg_ed25519.nix { };
+
+    pg_embedding = super.callPackage ./ext/pg_embedding.nix { };
 
     pg_hint_plan = super.callPackage ./ext/pg_hint_plan.nix { };
 
@@ -55,8 +61,6 @@ self: super: {
     pg_net = super.callPackage ./ext/pg_net.nix { };
 
     pgtap = super.callPackage ./ext/pgtap.nix { };
-
-    pipelinedb = super.callPackage ./ext/pipelinedb.nix { };
 
     smlar = super.callPackage ./ext/smlar.nix { };
 

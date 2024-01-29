@@ -7,13 +7,13 @@
 
 stdenv.mkDerivation (finalAttrs: {
   pname = "uxn";
-  version = "unstable-2023-09-29";
+  version = "unstable-2024-01-15";
 
   src = fetchFromSourcehut {
     owner = "~rabbits";
     repo = "uxn";
-    rev = "c71842aa8472f26c0ea7fbf92624659313c038ba";
-    hash = "sha256-Lo1AkK81Hv8A0jBfpR4lxlBJcWkh9LttURiXVoibKSs=";
+    rev = "8212ca5edb55a28976515a73fcb454f18eb44a09";
+    hash = "sha256-K/qTKSGt/sFHt0lfUbwa/Y2XlWst30q1aKvsm4sjrLc=";
   };
 
   outputs = [ "out" "projects" ];
@@ -31,8 +31,7 @@ stdenv.mkDerivation (finalAttrs: {
   postPatch = ''
     patchShebangs build.sh
     substituteInPlace build.sh \
-      --replace "-L/usr/local/lib " "" \
-      --replace "\$(brew --prefix)/lib/libSDL2.a " ""
+      --replace "-L/usr/local/lib " ""
   '';
 
   buildPhase = ''
@@ -65,9 +64,5 @@ stdenv.mkDerivation (finalAttrs: {
     maintainers = with lib.maintainers; [ AndersonTorres ];
     mainProgram = "uxnemu";
     inherit (SDL2.meta) platforms;
-    # ofborg complains about an error trying to link inexistent SDL2 library
-    # For full logs, run:
-    # 'nix log /nix/store/bmyhh0lpifl9swvkpflqldv43vcrgci1-uxn-unstable-2023-08-10.drv'.
-    broken = stdenv.isDarwin;
   };
 })

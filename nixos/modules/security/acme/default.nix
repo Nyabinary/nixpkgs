@@ -345,6 +345,10 @@ let
       serviceConfig = commonServiceConfig // {
         Group = data.group;
 
+        # Let's Encrypt Failed Validation Limit allows 5 retries per hour, per account, hostname and hour.
+        # This avoids eating them all up if something is misconfigured upon the first try.
+        RestartSec = 15 * 60;
+
         # Keep in mind that these directories will be deleted if the user runs
         # systemctl clean --what=state
         # acme/.lego/${cert} is listed for this reason.
@@ -893,10 +897,10 @@ in {
         certs = attrValues cfg.certs;
       in [
         {
-          assertion = cfg.email != null || all (certOpts: certOpts.email != null) certs;
+          assertion = cfg.defaults.email != null || all (certOpts: certOpts.email != null) certs;
           message = ''
             You must define `security.acme.certs.<name>.email` or
-            `security.acme.email` to register with the CA. Note that using
+            `security.acme.defaults.email` to register with the CA. Note that using
             many different addresses for certs may trigger account rate limits.
           '';
         }

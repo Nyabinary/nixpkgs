@@ -16,6 +16,8 @@ let
 
     systemd = config.systemd.package;
 
+    bootspecTools = pkgs.bootspec;
+
     nix = config.nix.package.out;
 
     timeout = optionalString (config.boot.loader.timeout != null) config.boot.loader.timeout;
@@ -52,20 +54,23 @@ let
   checkedSystemdBootBuilder = pkgs.runCommand "systemd-boot" {
     nativeBuildInputs = [ pkgs.mypy ];
   } ''
-    install -m755 ${systemdBootBuilder} $out
+    mkdir -p $out/bin
+    install -m755 ${systemdBootBuilder} $out/bin/systemd-boot-builder
     mypy \
       --no-implicit-optional \
       --disallow-untyped-calls \
       --disallow-untyped-defs \
-      $out
+      $out/bin/systemd-boot-builder
   '';
 
   finalSystemdBootBuilder = pkgs.writeScript "install-systemd-boot.sh" ''
     #!${pkgs.runtimeShell}
-    ${checkedSystemdBootBuilder} "$@"
+    ${checkedSystemdBootBuilder}/bin/systemd-boot-builder "$@"
     ${cfg.extraInstallCommands}
   '';
 in {
+
+  meta.maintainers = with lib.maintainers; [ julienmalka ];
 
   imports =
     [ (mkRenamedOptionModule [ "boot" "loader" "gummiboot" "enable" ] [ "boot" "loader" "systemd-boot" "enable" ])
@@ -77,7 +82,11 @@ in {
 
       type = types.bool;
 
-      description = lib.mdDoc "Whether to enable the systemd-boot (formerly gummiboot) EFI boot manager";
+      description = lib.mdDoc ''
+        Whether to enable the systemd-boot (formerly gummiboot) EFI boot manager.
+        For more information about systemd-boot:
+        https://www.freedesktop.org/wiki/Software/systemd/systemd-boot/
+      '';
     };
 
     editor = mkOption {
