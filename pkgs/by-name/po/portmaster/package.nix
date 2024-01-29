@@ -9,24 +9,16 @@ buildGoModule rec {
   version = "1.6.0";
   CGO_ENABLED = 0;
 
-  ldflags =
-    let
-      BUILD_PATH = "github.com/safing/portbase/info";
-      BUILD_COMMIT = "v${version}";
-      BUILD_USER = "nixpkgs";
-      BUILD_HOST = "hydra";
-      BUILD_DATE = "31.10.2023";
-      BUILD_SOURCE = src.gitRepoUrl;
-      BUILD_BUILDOPTIONS = "";
-    in
-    [
-      "-X ${BUILD_PATH}.commit=${BUILD_COMMIT}"
-      "-X ${BUILD_PATH}.buildOptions=${BUILD_BUILDOPTIONS}"
-      "-X ${BUILD_PATH}.buildUser=${BUILD_USER}"
-      "-X ${BUILD_PATH}.buildHost=${BUILD_HOST}"
-      "-X ${BUILD_PATH}.buildDate=${BUILD_DATE}"
-      "-X ${BUILD_PATH}.buildSource=${BUILD_SOURCE}"
-    ];
+  ldflags = let
+    BUILD_PATH = "github.com/safing/portbase/info";
+  in [
+    "-X ${BUILD_PATH}.commit=v${version}"
+    "-X ${BUILD_PATH}.buildOptions="
+    "-X ${BUILD_PATH}.buildUser=nixpkgs"
+    "-X ${BUILD_PATH}.buildHost=hydra"
+    "-X ${BUILD_PATH}.buildDate=31.10.2023"
+    "-X ${BUILD_PATH}.buildSource=${src.gitRepoUrl}"
+  ];
 
   src = fetchFromGitHub {
     owner = "safing";
