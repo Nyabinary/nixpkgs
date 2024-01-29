@@ -6,7 +6,7 @@
 }:
 buildGoModule rec {
   pname = "portmaster";
-  version = "1.6.0";
+  version = "1.6.5";
   CGO_ENABLED = 0;
 
   ldflags =
@@ -26,10 +26,10 @@ buildGoModule rec {
     owner = "safing";
     repo = pname;
     rev = "v${version}";
-    hash = "sha256-L7jCiXuX9jd/LaRggnPnXBuHqLQ7SfvbyvPM+ePwMYA=";
+    hash = "sha256-FstAaj/dstIrUCP/BDr3FbA/LB8gtVeLkf64jEcbSB8=";
   };
 
-  vendorHash = "sha256-b8XEF18MLykP9KNziHuvLtiy1ci0sBRdD8WJJ1wrbtA=";
+  vendorHash = "sha256-jnw8eBBc5FQPVHJfHCgoBFObK1lQvqZtcVVBNBUg63Q=";
 
   runtimeDependencies = [ iptables ];
 
